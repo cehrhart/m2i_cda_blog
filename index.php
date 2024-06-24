@@ -8,11 +8,10 @@
 	
 	require("_partial/header.php");
 	
-	// Inclure le fichier de connexion PDO
-	require("connexion.php");
+
 	
 	// Ecrire la requête comme dans PHPMyAdmin
-	$strQuery		= "SELECT article_title, article_img, article_content, article_createdate,
+	/*$strQuery		= "SELECT article_title, article_img, article_content, article_createdate,
 							CONCAT(user_name, ' ', user_firstname) AS article_author
 						FROM articles
 							INNER JOIN users ON article_creator = user_id
@@ -20,7 +19,13 @@
 						LIMIT 4 OFFSET 0;";
 	// On execute la requête et on demande tous les résultats
 	$arrArticles	= $db->query($strQuery)->fetchAll();
-	
+	*/
+    // Quel fichier ?
+    require_once("models/article_model.php");
+    // Instancier la classe => objet
+    $objModel   = new ArticleModel();
+    // Quelle méthode appeler
+    $arrArticles = $objModel->findAll(4);
 	//var_dump($arrArticles);
 ?>
 

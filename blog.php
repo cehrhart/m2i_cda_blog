@@ -18,7 +18,7 @@
 	$intAuthor		= $_POST['author']??0;
 	
 	// Inclure le fichier de connexion PDO
-	require("connexion.php");
+	/*require("connexion.php");
 	
 	// Ecrire la requête comme dans PHPMyAdmin
 	$strQuery		= "SELECT article_title, article_img, article_content, article_createdate,
@@ -28,7 +28,13 @@
 						ORDER BY article_createdate DESC 
 						";
 	// On execute la requête et on demande tous les résultats
-	$arrArticles	= $db->query($strQuery)->fetchAll();
+	$arrArticles	= $db->query($strQuery)->fetchAll();*/
+    // Quel fichier ?
+    require_once("models/article_model.php");
+    // Instancier la classe => objet
+    $objModel   = new ArticleModel();
+    // Quelle méthode appeler
+    $arrArticles = $objModel->findAll();
 	
 ?>	
 <div class="row mb-2">
