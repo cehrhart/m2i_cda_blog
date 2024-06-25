@@ -26,7 +26,7 @@
             // Flag pour le WHERE
             $boolWhere      = false;
 
-            $strQuery		= "SELECT article_title, article_img, article_content, article_createdate,
+            $strQuery		= "SELECT article_id, article_title, article_img, article_content, article_createdate,
                                     CONCAT(user_name, ' ', user_firstname) AS article_author
                                 FROM articles
                                     INNER JOIN users ON article_creator = user_id";

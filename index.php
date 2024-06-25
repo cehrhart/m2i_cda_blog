@@ -7,9 +7,7 @@
 	$strPage 	= "index";
 	
 	require("_partial/header.php");
-	
 
-	
 	// Ecrire la requête comme dans PHPMyAdmin
 	/*$strQuery		= "SELECT article_title, article_img, article_content, article_createdate,
 							CONCAT(user_name, ' ', user_firstname) AS article_author
@@ -39,12 +37,17 @@
 	?>
 	
 	<?php
+        require_once("entities/article_entity.php");
 		// Parcourir le tableau des articles
 		foreach($arrArticles as $arrDetArticle){
-			// Traitement avant affichage
-			$objDate 	= new DateTimeImmutable($arrDetArticle['article_createdate']);
-			$strDate 	= $objDate->format('d/m/Y');
-			$strSummary	= substr($arrDetArticle['article_content'], 0, 50).'...';
+            $objArticle = new Article();
+            $objArticle->hydrate($arrDetArticle);
+            /*$objArticle->setTitle($arrDetArticle['article_title']);
+            $objArticle->setImg($arrDetArticle['article_img']);
+            $objArticle->setContent($arrDetArticle['article_content']);
+            $objArticle->setCreatedate($arrDetArticle['article_createdate']);
+            $objArticle->setAuthor($arrDetArticle['article_author']);*/
+
 			// Affichage d'un article
 			include("_partial/article.php");
 		}
