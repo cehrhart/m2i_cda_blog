@@ -80,4 +80,9 @@
             $this->_pwd = $strPwd;
         }
 
+        public function getPwdHash()
+        {
+            return password_hash($this->_pwd, PASSWORD_DEFAULT);
+        }
+
     }

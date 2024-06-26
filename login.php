@@ -9,7 +9,7 @@
 	include("_partial/header.php");
 
     /* Partie fonctionnement de la connection */
-    var_dump($_POST);
+    //var_dump($_POST);
     // initialise le tableau des erreurs
     $arrErrors	= array();
     // Si le formulaire a été envoyé

@@ -32,15 +32,23 @@
         }
 
         public function findByMailAndPwd():array|bool{
-            $strQuery	= "SELECT user_id, user_firstname
+            // Vérifie l'utilisateur par son mail
+            $strQuery	= "SELECT user_id, user_firstname, user_pwd
 							FROM users 
-							WHERE user_mail = :mail
-                                AND user_pwd = :pass;";
+							WHERE user_mail = :mail; ";
+                                //AND user_pwd = :pass;";
             $strRqPrep	= $this->_db->prepare($strQuery);
             $strRqPrep->bindValue(":mail", $_POST['mail'], PDO::PARAM_STR);
-            $strRqPrep->bindValue(":pass", $_POST['password'], PDO::PARAM_STR);
+            //$strRqPrep->bindValue(":pass", $_POST['password'], PDO::PARAM_STR);
             $strRqPrep->execute();
-            return $strRqPrep->fetch();
+            $arrUser = $strRqPrep->fetch();
+
+            // Vérification du mot de passe
+            if ($arrUser !== false && password_verify($_POST['password'], $arrUser['user_pwd'])) {
+                unset($arrUser['user_pwd']);
+                return $arrUser;
+            }
+            return false;
         }
 
         /**
@@ -59,7 +67,7 @@
             $strRqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
             $strRqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
             $strRqPrep->bindValue(":mail", $objUser->getMail(), PDO::PARAM_STR);
-            $strRqPrep->bindValue(":pwd", $objUser->getPwd(), PDO::PARAM_STR);
+            $strRqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
             return $strRqPrep->execute();
         }
 
