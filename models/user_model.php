@@ -31,6 +31,18 @@
             return $strRqPrep->fetch();
         }
 
+        public function findByMailAndPwd():array|bool{
+            $strQuery	= "SELECT user_id, user_firstname
+							FROM users 
+							WHERE user_mail = :mail
+                                AND user_pwd = :pass;";
+            $strRqPrep	= $this->_db->prepare($strQuery);
+            $strRqPrep->bindValue(":mail", $_POST['mail'], PDO::PARAM_STR);
+            $strRqPrep->bindValue(":pass", $_POST['password'], PDO::PARAM_STR);
+            $strRqPrep->execute();
+            return $strRqPrep->fetch();
+        }
+
         /**
          * Méthode qui permet d'ajouter un utilisateur en bdd
          * @param object $objUser L'utilisateur
