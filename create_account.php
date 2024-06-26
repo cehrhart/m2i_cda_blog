@@ -8,44 +8,36 @@
 	
 	include("_partial/header.php");
 	//var_dump($_POST);
-	$strName		= $_POST['name']??"";
-	$strFirstname	= $_POST['firstname']??"";
-	$strMail		= $_POST['mail']??"";
-	$strPwd			= $_POST['pwd']??"";
 	$strConfirm_pwd	= $_POST['confirm_pwd']??"";
-	
-	// Enlever les espaces avant et après => trim()
-	$strName		= trim($strName);
-	$strFirstname	= trim($strFirstname);
-	$strMail		= strtolower(trim($strMail));
-	
-	// initialise le tableau des erreurs
+
+    require_once("entities/user_entity.php");
+    $objUser = new User();
+    $objUser->hydrate($_POST);
+
+    require_once("models/user_model.php");
+    $objModel   = new UserModel();
+
+    // initialise le tableau des erreurs
 	$arrErrors	= array(); 
 	// Si le formulaire a été envoyé
 	if (count($_POST) > 0){
 		// Si l'utilisateur n'a pas saisi son nom
-		if ($strName == ""){
+		if ($objUser->getName() == ""){
 			$arrErrors['name'] = "Le nom est obligatoire";
 		}
 		// Si l'utilisateur n'a pas saisi son prénom
-		if ($strFirstname == ""){
+		if ($objUser->getFirstname()  == ""){
 			$arrErrors['firstname'] = "Le prénom est obligatoire";
 		}
 		// Si l'utilisateur n'a pas saisi son mail
-		if ($strMail == ""){
+		if ($objUser->getMail()  == ""){
 			$arrErrors['mail'] = "Le mail est obligatoire";
-		}elseif(!filter_var($strMail, FILTER_VALIDATE_EMAIL)){
+		}elseif(!filter_var($objUser->getMail(), FILTER_VALIDATE_EMAIL)){
 			$arrErrors['mail'] = "Le mail n'est pas valide";
 		}else{
 			// Récupère les utilisateurs qui ont l'adresse Mail
-			require("connexion.php");
-			$strQuery	= "SELECT user_mail
-							FROM users 
-							WHERE user_mail = :mail;";
-			$strRqPrep	= $db->prepare($strQuery);	
-			$strRqPrep->bindValue(":mail", $strMail, PDO::PARAM_STR);
-			$strRqPrep->execute();
-			$arrUser	= $strRqPrep->fetch();
+            $arrUser	= $objModel->getByMail($objUser->getMail());
+
 			// Si j'ai un résultat => erreur
 			if($arrUser !== false){
 				$arrErrors['mail'] = "Le mail est déjà utilisé";
@@ -53,27 +45,23 @@
 		}
 		
 		// Si l'utilisateur n'a pas saisi son mot de passe
-		if ($strPwd == ""){
+		if ($objUser->getPwd() == ""){
 			$arrErrors['pwd'] = "Le mot de passe est obligatoire";
-		}elseif ($strPwd != $strConfirm_pwd){
+		}elseif ($objUser->getPwd() != $strConfirm_pwd){
 			$arrErrors['confirm_pwd'] = "Le mot de passe et sa confirmation ne correspondent pas";
 		}
 		
-		// Si le formulaires est OK
-		if (count($arrErrors) == 0){
-			// Inclure le fichier de connexion PDO
-			require("connexion.php");
-			
-			// Ajouter les infos en BDD
-			$strQuery		= "INSERT INTO users 
-			(user_name, user_firstname, user_mail, user_pwd)
-			VALUES 
-			('".$strName."', '".$strFirstname."', '".$strMail."', '".$strPwd."');";
-			$db->exec($strQuery);
-			
-			$_SESSION['message']= "Vous compte à bien été créé, vous pouvez vous connecter";
-			// Redirection vers la page d'accueil
-			header("Location:login.php");
+		// Si le formulaire est OK
+		if (count($arrErrors) == 0) {
+            $boolOk = $objModel->insert($objUser);
+
+            if ($boolOk) {
+                $_SESSION['message'] = "Vous compte à bien été créé, vous pouvez vous connecter";
+                // Redirection vers la page d'accueil
+                header("Location:login.php");
+            }else{
+                $arrErrors[] = "Erreur dans l'ajout";
+            }
 		}		
 	}
 
@@ -89,17 +77,17 @@
 <form method="post">
 	<p>
 		<label for="name">Nom</label>
-		<input name="name" value="<?php echo $strName; ?>" id="name" class="form-control 
+		<input name="name" value="<?php echo $objUser->getName(); ?>" id="name" class="form-control
 			<?php if(isset($arrErrors['name'])){ echo 'is-invalid'; } ?>" type="text" >
 	</p>
 	<p>
 		<label for="firstname">Prénom</label>
-		<input name="firstname" value="<?php echo $strFirstname; ?>" id="firstname" class="form-control 
+		<input name="firstname" value="<?php echo $objUser->getFirstname(); ?>" id="firstname" class="form-control
 			<?php if(isset($arrErrors['firstname'])){ echo 'is-invalid'; } ?>" type="text" >
 	</p>
 	<p>
 		<label for="mail">Mail</label>
-		<input name="mail" value="<?php echo $strMail; ?>" id="mail" class="form-control 
+		<input name="mail" value="<?php echo $objUser->getMail();; ?>" id="mail" class="form-control
 			<?php if(isset($arrErrors['mail'])){ echo 'is-invalid'; } ?>" type="text" >
 	</p>
 	<p>

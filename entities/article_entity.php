@@ -3,7 +3,8 @@
  * Entité qui représente la structure d'un article
  */
 
-    class Article {
+    require_once('entities/mother_entity.php');
+    class Article extends Entity {
 
         private string $_title;
         private string $_img;
@@ -11,26 +12,7 @@
         private string $_createdate;
         private string $_author;
 
-
-        /**
-         * Methode d'hydratation de l'objet
-         * @param $arrDetArticle Tableau des données
-         * @return void
-         */
-        public function hydrate($arrDetArticle){
-            /*$this->setTitle($arrDetArticle['article_title']);
-            $this->setImg($arrDetArticle['article_img']);
-            $this->setContent($arrDetArticle['article_content']);
-            $this->setCreatedate($arrDetArticle['article_createdate']);
-            $this->setAuthor($arrDetArticle['article_author']);*/
-
-            foreach ($arrDetArticle as $key => $value) {
-                $strMethod = "set".ucfirst(str_replace("article_", "", $key));
-                if (method_exists($this, $strMethod)) {
-                    $this->$strMethod($value);
-                }
-            }
-        }
+        protected string $_strPrefixe = "article_";
 
         /**
          * Getter du titre
