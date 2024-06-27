@@ -7,7 +7,9 @@
 		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 		<meta name="generator" content="Hugo 0.118.2">
 		<title>Blog - <?php echo $strH1; ?></title>
-		<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
+        <base href="http://localhost/m2i_cda_blog/">
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 		
 		<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
