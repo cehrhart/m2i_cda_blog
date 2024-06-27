@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    require_once("controllers/mother_controller.php");
+
     /* Dispatcher  */
     $strCtrl    = $_GET['controller']??'article';
     $strMethod  = $_GET['action']??'index';

@@ -2,22 +2,23 @@
     /**
      * Controller des pages de contenu
      */
-    class PageCtrl{
+    class PageCtrl extends Controller {
         /**
          * Page A propos
          * @return void
          */
         public function about(){
             // Variables d'affichage
-            $strH1		= "A propos";
-            $strPar		= "Page de contenu";
+            $this->_arrData['strH1']	= "A propos";
+            $this->_arrData['strPar']	= "Page de contenu";
 
             // Variables de fonctionnement
-            $strPage 	= "about";
+            $this->_arrData['strPage'] 	= "about";
 
-            include("views/_partial/header.php");
+            $this->_display("about");
+            /*include("views/_partial/header.php");
             include("views/view_about.php");
-            include("views/_partial/footer.php");
+            include("views/_partial/footer.php");*/
         }
 
         /**
@@ -26,15 +27,13 @@
          */
         public function contact(){
             // Variables d'affichage
-            $strH1		= "Contact";
-            $strPar		= "Page de contact";
+            $this->_arrData['strH1']	= "Contact";
+            $this->_arrData['strPar']	= "Page de contact";
 
             // Variables de fonctionnement
-            $strPage 	= "contact";
+            $this->_arrData['strPage'] 	= "contact";
 
-            include("views/_partial/header.php");
-            include("views/view_contact.php");
-            include("views/_partial/footer.php");
+            $this->_display("contact");
         }
 
         /**
