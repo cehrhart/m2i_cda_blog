@@ -2,22 +2,20 @@
     /**
      * Controller des erreurs
      */
-    class ErrorCtrl{
+    class ErrorCtrl extends Controller {
         /**
          * Page 404
          * @return void
          */
         public function error_404(){
             // Variables d'affichage
-            $strH1		= "Erreur 404";
-            $strPar		= "Page non trouvée";
+            $this->_arrData['strH1']	= "Erreur 404";
+            $this->_arrData['strPar']	= "Page non trouvée";
 
             // Variables de fonctionnement
-            $strPage 	= "error_404";
+            $this->_arrData['strPage']	= "error_404";
 
-            include("views/_partial/header.php");
-            include("views/view_404.php");
-            include("views/_partial/footer.php");
+            $this->_display("404");
         }
 
         /**
@@ -26,15 +24,13 @@
          */
         public function error_403(){
             // Variables d'affichage
-            $strH1		= "Erreur 403";
-            $strPar		= "Accès interdit";
+            $this->_arrData['strH1']	= "Erreur 403";
+            $this->_arrData['strPar']	= "Accès interdit";
 
             // Variables de fonctionnement
-            $strPage 	= "error_403";
+            $this->_arrData['strPage'] 	= "error_403";
 
-            include("views/_partial/header.php");
-            include("views/view_403.php");
-            include("views/_partial/footer.php");
+            $this->_display("403");
         }
 
     }

@@ -42,15 +42,13 @@
          */
         public function mentions(){
             // Variables d'affichage
-            $strH1		= "Mentions légales";
-            $strPar		= "Page de contenu";
+            $this->_arrData['strH1']	= "Mentions légales";
+            $this->_arrData['strPar']	= "Page de contenu";
 
             // Variables de fonctionnement
-            $strPage 	= "mentions";
+            $this->_arrData['strPage'] 	= "mentions";
 
-            include("views/_partial/header.php");
-            include("views/view_mentions.php");
-            include("views/_partial/footer.php");
+            $this->_display("mentions");
         }
 
     }

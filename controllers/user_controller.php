@@ -2,18 +2,18 @@
     /**
      * Controller des utilisateurs
      */
-    class UserCtrl{
+    class UserCtrl extends Controller {
         /**
          * Page Login
          * @return void
          */
         public function login(){
             // Variables d'affichage
-            $strH1		= "Se connecter";
-            $strPar		= "Page permettant de se connecter";
+            $this->_arrData['strH1']	= "Se connecter";
+            $this->_arrData['strPar']	= "Page permettant de se connecter";
 
             // Variables de fonctionnement
-            $strPage 	= "login";
+            $this->_arrData['strPage']	= "login";
 
             /* Partie fonctionnement de la connection */
             //var_dump($_POST);
@@ -44,11 +44,9 @@
                     }
                 }
             }
-
+            $this->_arrData["arrErrors"] = $arrErrors;
             // Affichage
-            include("views/_partial/header.php");
-            include("views/view_login.php");
-            include("views/_partial/footer.php");
+            $this->_display("login");
         }
         /**
          * Page Logout
@@ -73,11 +71,11 @@
         public function create_account()
         {
             // Variables d'affichage
-            $strH1		= "Créer un compte";
-            $strPar		= "Page permettant de créer son compte";
+            $this->_arrData['strH1']	= "Créer un compte";
+            $this->_arrData['strPar']	= "Page permettant de créer son compte";
 
             // Variables de fonctionnement
-            $strPage 	= "create_account";
+            $this->_arrData['strPage'] 	= "create_account";
 
             //var_dump($_POST);
             $strConfirm_pwd	= $_POST['confirm_pwd']??"";
@@ -136,10 +134,11 @@
                     }
                 }
             }
+            // Variables utilisées pour la vue
+            $this->_arrData['objUser']  = $objUser;
+            $this->_arrData['arrErrors'] = $arrErrors;
             // Affichage
-            include("views/_partial/header.php");
-            include("views/view_create_account.php");
-            include("views/_partial/footer.php");
+            $this->_display("create_account");
         }
 
     }

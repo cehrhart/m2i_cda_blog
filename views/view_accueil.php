@@ -8,17 +8,8 @@
     ?>
 
     <?php
-    require_once("entities/article_entity.php");
     // Parcourir le tableau des articles
-    foreach($arrArticles as $arrDetArticle){
-        $objArticle = new Article();
-        $objArticle->hydrate($arrDetArticle);
-        /*$objArticle->setTitle($arrDetArticle['article_title']);
-        $objArticle->setImg($arrDetArticle['article_img']);
-        $objArticle->setContent($arrDetArticle['article_content']);
-        $objArticle->setCreatedate($arrDetArticle['article_createdate']);
-        $objArticle->setAuthor($arrDetArticle['article_author']);*/
-
+    foreach($arrArticlesToDisplay as $objArticle){
         // Affichage d'un article
         include("_partial/article.php");
     }
