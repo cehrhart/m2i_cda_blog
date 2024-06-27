@@ -64,6 +64,9 @@
          */
         public function add_article()
         {
+            if (!isset($_SESSION['id']) || $_SESSION['id'] == '') {
+                header("Location:index.php?controller=error&action=error_403");
+            }
             // Variables d'affichage
             $strH1		= "Ajouter un article";
             $strPar		= "Page permettant d'ajouter un article";
